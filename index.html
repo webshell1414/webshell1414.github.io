@@ -374,7 +374,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  112
+                  342
                 </span>
               
 
@@ -423,6 +423,14 @@
 <li>动态容器：Tomcat/8.5.16    IP：192.168.2.11</li>
 <li>默认域名：www.webshell1414.com</li>
 </ul>
+<p>##配置要求介绍</p>
+<ol>
+<li>实现全站走https</li>
+<li>为了客户体验，开放80端口，但流量全走https</li>
+<li>实现动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源，动态资源，如jsp等由tomcat服务器处理</li>
+</ol>
+<p>##配置SSL</p>
+<h3 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 1、首先，进入你想创建证书和私钥的目录，例如：</div><div class="line">cd /etc/nginx/</div><div class="line"># 2、创建服务器私钥，命令会让你输入一个口令（安全性考虑要求2048位）：</div><div class="line">openssl genrsa -des3 -out server.key 2048</div><div class="line"># 3、创建签名请求的证书（CSR）：</div><div class="line">openssl req -new -key server.key -out server.csr</div><div class="line"># 4、在加载SSL支持的Nginx并使用上述私钥时除去必须的口令：</div><div class="line">cp server.key server.key.org</div><div class="line">openssl rsa -in server.key.org -out server.key</div><div class="line"># 5、最后标记证书使用上述私钥和CSR：</div><div class="line">openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt</div></pre></td></tr></table></figure>
 
           
         
@@ -756,7 +764,7 @@
 </span>
 </div>
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共193字</span>
+  <span class="post-count">博客全站共423字</span>
 </div>
 
 
