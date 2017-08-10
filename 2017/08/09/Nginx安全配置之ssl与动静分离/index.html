@@ -108,12 +108,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/09/Nginx安全配置之ssl与动静分离/index.html">
 <meta property="og:site_name" content="webshell1414">
 <meta property="og:description" content="本文技术 为了客户体验，开放80端口，但流量全走https 配置动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源；动态资源，如jsp等由tomcat服务器处理  测试环境： 操作系统：CentOS 6.7 Web服务器：Nginx/1.12.1   IP：192.168.2.10 动态容器：Tomcat/8.5.16    IP：192.168.2.1">
-<meta property="og:image" content="http://yoursite.com/2017/08/09/images/test.png">
-<meta property="og:updated_time" content="2017-08-10T21:00:25.000Z">
+<meta property="og:image" content="http://yoursite.com/images/test.png">
+<meta property="og:updated_time" content="2017-08-10T21:43:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx安全配置之ssl与动静分离">
 <meta name="twitter:description" content="本文技术 为了客户体验，开放80端口，但流量全走https 配置动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源；动态资源，如jsp等由tomcat服务器处理  测试环境： 操作系统：CentOS 6.7 Web服务器：Nginx/1.12.1   IP：192.168.2.10 动态容器：Tomcat/8.5.16    IP：192.168.2.1">
-<meta name="twitter:image" content="http://yoursite.com/2017/08/09/images/test.png">
+<meta name="twitter:image" content="http://yoursite.com/images/test.png">
 
 
 
@@ -488,7 +488,7 @@
 <p>这里在server的部分增加了一个location内容，location用来限定请求包含这些指定的后缀，就直接从磁盘获取资源，root参数指定资源目录<br>然后从新加载配置<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./nginx -s reload</div></pre></td></tr></table></figure></p>
 <h3 id="测试访问结果"><a href="#测试访问结果" class="headerlink" title="测试访问结果"></a>测试访问结果</h3><ul>
 <li>访问js文件,可以看到访问时间为80多ms</li>
-<li>访问首页的html文件，耗时250多ms<br><img src="../images/test.png" alt="响应时间"></li>
+<li>访问首页的html文件，耗时250多ms<br><img src="/../images/test.png" alt="响应时间"></li>
 </ul>
 
       
