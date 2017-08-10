@@ -101,16 +101,16 @@
 
 
 
-<meta name="description" content="AV.initialize(&quot;&quot;, &quot;&quot;); //需要写上leancloud的key    var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不为0的结果   query.descending(&apos;time&apos;); //结果">
+<meta name="description" content="AV.initialize(&quot;Icj5I0QLkkihDjP85QdOIGvl-gzGzoHsz&quot;, &quot;DMXjrkUyRyrMFIy0z9LFTJ21&quot;);     var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不">
 <meta property="og:type" content="website">
 <meta property="og:title" content="阅读榜">
 <meta property="og:url" content="http://yoursite.com/rank/index.html">
 <meta property="og:site_name" content="webshell1414">
-<meta property="og:description" content="AV.initialize(&quot;&quot;, &quot;&quot;); //需要写上leancloud的key    var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不为0的结果   query.descending(&apos;time&apos;); //结果">
-<meta property="og:updated_time" content="2017-08-10T08:08:45.000Z">
+<meta property="og:description" content="AV.initialize(&quot;Icj5I0QLkkihDjP85QdOIGvl-gzGzoHsz&quot;, &quot;DMXjrkUyRyrMFIy0z9LFTJ21&quot;);     var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不">
+<meta property="og:updated_time" content="2017-08-10T17:21:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阅读榜">
-<meta name="twitter:description" content="AV.initialize(&quot;&quot;, &quot;&quot;); //需要写上leancloud的key    var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不为0的结果   query.descending(&apos;time&apos;); //结果">
+<meta name="twitter:description" content="AV.initialize(&quot;Icj5I0QLkkihDjP85QdOIGvl-gzGzoHsz&quot;, &quot;DMXjrkUyRyrMFIy0z9LFTJ21&quot;);     var time=0   var title=&quot;&quot;   var url=&quot;&quot;   var query = new AV.Query(&apos;Counter&apos;);//表名   query.notEqualTo(&apos;id&apos;,0); //id不">
 
 
 
@@ -338,7 +338,7 @@
         
         
           <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-<script>AV.initialize("", "");</script> //需要写上leancloud的key
+<script>AV.initialize("Icj5I0QLkkihDjP85QdOIGvl-gzGzoHsz", "DMXjrkUyRyrMFIy0z9LFTJ21");</script> 
 <script type="text/javascript">
   var time=0
   var title=""
@@ -347,13 +347,13 @@
   query.notEqualTo('id',0); //id不为0的结果
   query.descending('time'); //结果按阅读次数降序排序
   query.limit(20);  //最终只返回10条结果
-  query.find().then(function (todo) {
+  query.find().then(function (todo){
     for (var i=0;i<10;i++){ 
       var result=todo[i].attributes;
       time=result.time;  //阅读次数
       title=result.title; //文章标题
       url=result.url;     //文章url
-      var content="<p>"+"<font color='#0477ab'>"+"【阅读次数:"+time+"】"+"<a href='"+"http://thief.one"+url+"'>"+title+"</font>"+"</a>"+"</p>";
+      var content="<p>"+"<font color='#0477ab'>"+"【阅读次数:"+time+"】"+"<a href='"+"http://www.webshell1414.com"+url+"'>"+title+"</font>"+"</a>"+"</p>";
       // document.write("<a href='"+"http://thief.one/"+url+"'>"+title+"</a>"+"    Readtimes:"+time+"<br>");
       document.getElementById("heheda").innerHTML+=content
     }
