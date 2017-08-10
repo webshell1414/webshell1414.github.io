@@ -108,10 +108,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/09/Nginx安全配置之ssl与动静分离/index.html">
 <meta property="og:site_name" content="webshell1414">
 <meta property="og:description" content="本文技术 为了客户体验，开放80端口，但流量全走https 配置动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源；动态资源，如jsp等由tomcat服务器处理  测试环境： 操作系统：CentOS 6.7 Web服务器：Nginx/1.12.1   IP：192.168.2.10 动态容器：Tomcat/8.5.16    IP：192.168.2.1">
-<meta property="og:updated_time" content="2017-08-09T19:08:18.000Z">
+<meta property="og:image" content="http://yoursite.com/2017/08/09/images/test.png">
+<meta property="og:updated_time" content="2017-08-10T21:00:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx安全配置之ssl与动静分离">
 <meta name="twitter:description" content="本文技术 为了客户体验，开放80端口，但流量全走https 配置动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源；动态资源，如jsp等由tomcat服务器处理  测试环境： 操作系统：CentOS 6.7 Web服务器：Nginx/1.12.1   IP：192.168.2.10 动态容器：Tomcat/8.5.16    IP：192.168.2.1">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/09/images/test.png">
 
 
 
@@ -427,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  342字
+                  984字
                 </span>
               
 
@@ -463,14 +465,31 @@
 <li>动态容器：Tomcat/8.5.16    IP：192.168.2.11</li>
 <li>默认域名：www.webshell1414.com</li>
 </ul>
-<p>##配置要求介绍</p>
-<ol>
+<h2 id="配置要求介绍"><a href="#配置要求介绍" class="headerlink" title="配置要求介绍"></a>配置要求介绍</h2><ol>
 <li>实现全站走https</li>
 <li>为了客户体验，开放80端口，但流量全走https</li>
 <li>实现动静分离，其中静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源，动态资源，如jsp等由tomcat服务器处理</li>
 </ol>
-<p>##配置SSL</p>
-<h3 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 1、首先，进入你想创建证书和私钥的目录，例如：</div><div class="line">cd /etc/nginx/</div><div class="line"># 2、创建服务器私钥，命令会让你输入一个口令（安全性考虑要求2048位）：</div><div class="line">openssl genrsa -des3 -out server.key 2048</div><div class="line"># 3、创建签名请求的证书（CSR）：</div><div class="line">openssl req -new -key server.key -out server.csr</div><div class="line"># 4、在加载SSL支持的Nginx并使用上述私钥时除去必须的口令：</div><div class="line">cp server.key server.key.org</div><div class="line">openssl rsa -in server.key.org -out server.key</div><div class="line"># 5、最后标记证书使用上述私钥和CSR：</div><div class="line">openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt</div></pre></td></tr></table></figure>
+<h2 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h2><h3 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 1、首先，进入你想创建证书和私钥的目录，例如：</div><div class="line">cd /etc/nginx/</div><div class="line"># 2、创建服务器私钥，命令会让你输入一个口令（安全性考虑要求2048位）：</div><div class="line">openssl genrsa -des3 -out server.key 2048</div><div class="line"># 3、创建签名请求的证书（CSR）：</div><div class="line">openssl req -new -key server.key -out server.csr</div><div class="line"># 4、在加载SSL支持的Nginx并使用上述私钥时除去必须的口令：</div><div class="line">cp server.key server.key.org</div><div class="line">openssl rsa -in server.key.org -out server.key</div><div class="line"># 5、最后标记证书使用上述私钥和CSR：</div><div class="line">openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt</div></pre></td></tr></table></figure>
+<p>也可以使用<a href="https://github.com/michaelliao/itranswarp.js/blob/master/conf/ssl/gencert.sh" target="_blank" rel="external">自动化脚</a>本生成,一键式生成证书<br>也可以直接去证书签发机构申请一个</p>
+<h2 id="在Nginx上配置SSL"><a href="#在Nginx上配置SSL" class="headerlink" title="在Nginx上配置SSL"></a>在Nginx上配置SSL</h2><p>注销掉或删除nginx.conf默认配置上的server部分<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen       <span class="number">80</span>;</div><div class="line">        server_name  localhost;</div><div class="line">        location / &#123;</div><div class="line">            root   html;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在配置下新建conf.d目录，在目录下新建一个webshell1414.conf文件<br>然后在nginx.conf配置文件上添加以下 字段引入该配置文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include /etc/nginx/conf.d/webshell1414.conf;</div></pre></td></tr></table></figure></p>
+<p>配置webshell1414.conf文件<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">upstream webshell1414&#123;</div><div class="line">server 192.168.2.11:8080    weight=1 max_fails=2 fail_timeout=10s;</div><div class="line">&#125; </div><div class="line">server &#123;</div><div class="line">listen 80 default backlog=2048;</div><div class="line">server_name www.webshell1414.com;</div><div class="line">rewrite ^(.*)$ https://www.webshell1414.com $request_uri permanent;</div><div class="line">&#125;#启动80端口，使用rewrite方式将所有的流量转接到443端口上</div><div class="line">server &#123;</div><div class="line">          listen 443 ssl;</div><div class="line">           server_name usm.security.syswin.com;</div><div class="line">           ssl                                  on;</div><div class="line">           ssl_certificate              ssl/server.crt;</div><div class="line">           ssl_certificate_key          ssl/server.key;</div><div class="line">           ssl_ciphers         HIGH:!aNULL:!MD5:!RC4;</div><div class="line">           ssl_prefer_server_ciphers on;</div><div class="line">           ssl_protocols  TLSv1.1 TLSv1.2;</div><div class="line">           location / &#123;</div><div class="line">           proxy_set_header Host $host;</div><div class="line">           proxy_pass http://webshel1414;</div><div class="line">          &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Upstream：负载均衡部分内容， weight表示权重，max_fails=2 fail_timeout=10s这两个参数是指，10s内请求失败2次就不会再访问该server<br>了</li>
+<li>ssl_certificate  和ssl_certificate_key 两个参数来指定添加的之前生成ssl证书，这里可以使用绝对路径和相对路径</li>
+<li>ssl_ciphers  用来指定可以使用的加密算法，为安全型考虑，禁止使用低安全性的加密算法</li>
+<li>ssl_prefer_server_ciphers  设置协商加密算法时，优先使用我们服务端的加密套件</li>
+<li>ssl_protocols   配置允许的加密方式，安全性考虑，使用TLS1.2，禁止使用ssl v3等非安全协议</li>
+<li>location：将nginx完全当成一个反向代理，将所有的动静态资源去Tomcat上请求</li>
+</ul>
+<h2 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h2><p>静动分离：就是将css、js、jpg等静态资源和jsp等动态资源分开处理，以此提高服务器响应速度，提高性能<br>静态资源，如css、js、jpg等由当前的Nginx服务器处理，直接获取磁盘资源，动态资源，如jsp等由tomcat服务器处理<br>修改webshell1414.conf配置的server部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">          listen <span class="number">443</span> ssl;</div><div class="line">           server_name usm.security.syswin.com;</div><div class="line">           ssl                                  on;</div><div class="line">           ssl_certificate              ssl/server.crt;</div><div class="line">           ssl_certificate_key          ssl/server.key;</div><div class="line">           ssl_ciphers         HIGH:!aNULL:!MD5:!RC4;</div><div class="line">           ssl_prefer_server_ciphers on;</div><div class="line">           ssl_protocols  TLSv1<span class="number">.1</span> TLSv1<span class="number">.2</span>;</div><div class="line">           location ~ .*.(gif|jpg|jpeg|png|bmp|swf|css|js)$ &#123; </div><div class="line">           root   html;</div><div class="line">        &#125;</div><div class="line">           location / &#123;</div><div class="line">           proxy_set_header Host $host;</div><div class="line">           proxy_pass http:<span class="comment">//webshel1414;</span></div><div class="line">          &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里在server的部分增加了一个location内容，location用来限定请求包含这些指定的后缀，就直接从磁盘获取资源，root参数指定资源目录<br>然后从新加载配置<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./nginx -s reload</div></pre></td></tr></table></figure></p>
+<h3 id="测试访问结果"><a href="#测试访问结果" class="headerlink" title="测试访问结果"></a>测试访问结果</h3><ul>
+<li>访问js文件,可以看到访问时间为80多ms</li>
+<li>访问首页的html文件，耗时250多ms<br><img src="../images/test.png" alt="响应时间"></li>
+</ul>
 
       
     </div>
@@ -651,7 +670,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文技术"><span class="nav-number">1.</span> <span class="nav-text">本文技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试环境："><span class="nav-number">2.</span> <span class="nav-text">测试环境：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成证书"><span class="nav-number">2.1.</span> <span class="nav-text">生成证书</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文技术"><span class="nav-number">1.</span> <span class="nav-text">本文技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试环境："><span class="nav-number">2.</span> <span class="nav-text">测试环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置要求介绍"><span class="nav-number">3.</span> <span class="nav-text">配置要求介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置SSL"><span class="nav-number">4.</span> <span class="nav-text">配置SSL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成证书"><span class="nav-number">4.1.</span> <span class="nav-text">生成证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Nginx上配置SSL"><span class="nav-number">5.</span> <span class="nav-text">在Nginx上配置SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动静分离"><span class="nav-number">6.</span> <span class="nav-text">动静分离</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试访问结果"><span class="nav-number">6.1.</span> <span class="nav-text">测试访问结果</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -689,7 +708,7 @@
 </span>
 </div>
 <div class="powered-by">
-  <span class="post-count">博客全站共2.3k字</span>
+  <span class="post-count">博客全站共2.9k字</span>
 
 
         
