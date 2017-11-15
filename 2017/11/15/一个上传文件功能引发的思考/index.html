@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/15/一个上传文件功能引发的思考/index.html">
 <meta property="og:site_name" content="webshell1414">
 <meta property="og:description" content="0x00 前言最近老是碰到同事、朋友问到类似问题：找到一个上传文件的地方，基本上传绕过方法试过了，寻求其他高端奇葩绕过姿势那么，找到一个上传点，你能想到哪些上传问题？ 作为资深的小（砖）白（家）发现小白们能想到的都是绕过上传、绕过上传、奇葩姿势绕过上传。在此对文件上传问题做个总结。 0x01 上传绕过Getshell首先是大家都一开始想到的问题，绕过文件上传，这里个人总结绕过上传姿势如下   客户">
-<meta property="og:updated_time" content="2017-11-15T19:11:55.000Z">
+<meta property="og:updated_time" content="2017-11-15T19:19:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个上传文件功能引发的思考">
 <meta name="twitter:description" content="0x00 前言最近老是碰到同事、朋友问到类似问题：找到一个上传文件的地方，基本上传绕过方法试过了，寻求其他高端奇葩绕过姿势那么，找到一个上传点，你能想到哪些上传问题？ 作为资深的小（砖）白（家）发现小白们能想到的都是绕过上传、绕过上传、奇葩姿势绕过上传。在此对文件上传问题做个总结。 0x01 上传绕过Getshell首先是大家都一开始想到的问题，绕过文件上传，这里个人总结绕过上传姿势如下   客户">
@@ -467,8 +467,9 @@
 <p><strong>5. 配合系统文件命名特性绕过:</strong><br>服务端对上传文件的后缀等黑名单校验比较完善，可以上传奇葩文件名单一般不会被解析，这样可以结合服务器系统文件命名特性去上传。<br>绕过方法：</p>
 <ul>
 <li>上传不符合windows文件命名规则的文件名：<br>test.asp.<br>test.asp(空格)<br>test.php:1.jpg<br>test.php::$DATA<br>shell.php::$DATA……<br>会被windows系统自动去掉不符合规则符号后面的内容  </li>
-<li>linux下后缀名大小写<br>具体详见漏洞案例:<br><a href="http://wooyun.webshell1414.com/static/bugs/wooyun-2016-0190447.html" target="_blank" rel="external">中国南方航空公司某站存在任意文件上传漏洞（Windows技巧绕过限制)</a><br><a href="http://wooyun.webshell1414.com/static/bugs/wooyun-2015-0150722.html" target="_blank" rel="external">p2p安全之美尔雅期货存在任意文件上传已Getshell</a></li>
+<li>linux下后缀名大小写  </li>
 </ul>
+<p>具体详见漏洞案例:<br><a href="http://wooyun.webshell1414.com/static/bugs/wooyun-2016-0190447.html" target="_blank" rel="external">中国南方航空公司某站存在任意文件上传漏洞（Windows技巧绕过限制)</a><br><a href="http://wooyun.webshell1414.com/static/bugs/wooyun-2015-0150722.html" target="_blank" rel="external">p2p安全之美尔雅期货存在任意文件上传已Getshell</a></p>
 <p><strong>6.  配合其他规则绕过:</strong><br>服务端使用的编程语言和系统不同，相同校验方法会也产生各种差异，这也会形成上传可利用点。<br>绕过方法：  </p>
 <ul>
 <li>%00截断绕过  </li>
