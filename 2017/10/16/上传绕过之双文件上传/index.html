@@ -110,7 +110,7 @@
 <meta property="og:description" content="双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。 双文件上传利用双文件上传顾名思义就是通过上传两个或多个文件去突破  本地构造正常上传页面 12345678&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;form name=&quot;form&quot; enctype=&quot;multipart/form-data&quot; met">
 <meta property="og:image" content="http://yoursite.com/images/twoupload.jpg">
 <meta property="og:image" content="http://yoursite.com/images/双文件上传.jpg">
-<meta property="og:updated_time" content="2017-11-16T03:58:06.000Z">
+<meta property="og:updated_time" content="2017-11-16T19:39:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上传绕过之双文件上传">
 <meta name="twitter:description" content="双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。 双文件上传利用双文件上传顾名思义就是通过上传两个或多个文件去突破  本地构造正常上传页面 12345678&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;form name=&quot;form&quot; enctype=&quot;multipart/form-data&quot; met">
@@ -430,7 +430,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  690字
+                  685字
                 </span>
               
 
@@ -469,14 +469,12 @@
 </li>
 </ol>
 <p>打开这个上传页面，第一个文件域选择jpg、gif等允许上传的正常格式，后面的文件域选择准备好的网马，然后直接提交<br><img src="/../images/twoupload.jpg" alt="上传页面"></p>
-<ol>
-<li>连接<br>使用各种方法找到上传后的路径，把这个链接丢经菜刀中马儿就成功运行了</li>
-</ol>
+<p> 使用各种方法找到上传后的路径，把这个链接丢经菜刀中马儿就成功运行了</p>
 <h2 id="双文件上传漏洞原理"><a href="#双文件上传漏洞原理" class="headerlink" title="双文件上传漏洞原理"></a>双文件上传漏洞原理</h2><ul>
 <li>双文件上传漏洞的原理是：上传点支持多文件上传，但是却只对第一个文件做了过滤。</li>
 </ul>
 <p>这里找到别人存在该漏洞的代码做示例<br>部分关键代码如下：<br><img src="/../images/双文件上传.jpg" alt="双文件上传关键代码"><br>中间红线括着的为逻辑漏洞的关键所在<br>直接这么看可能摸不着头脑，解释一下：<br>首先，在程序的开头部分定义了 EnableUpload 的初始值为 false，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EnableUpload=false</div></pre></td></tr></table></figure></p>
-<p>当EnableUplad 的值为 True ，就允许上传文件保存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if EnableUpload=false then</div><div class="line">   msg=&quot;这种文件类型不允许上传！\n\n只允许上传这几种文件类型：&quot; &amp; UpFileType</div><div class="line">   FoundErr=true</div><div class="line">  end if</div><div class="line">  </div><div class="line">  </div><div class="line">  strJS=&quot;&lt;SCRIPT language=javascript&gt;&quot; &amp; vbcrlf</div><div class="line">  if FoundErr&lt;&gt;true then</div><div class="line">   randomize</div><div class="line">   ranNum=int(900*rnd)+100</div><div class="line">   filename=SavePath&amp;year(now)&amp;month(now)&amp;day(now)&amp;hour(now)&amp;minute(now)&amp;second(now)&amp;ranNum&amp;&quot;.&quot;&amp;fileExt</div><div class="line">   ofile.SaveToFile Server.mappath(FileName)   &apos;保存文件</div><div class="line">   msg=&quot;上传文件成功！&quot;</div><div class="line">  ...</div></pre></td></tr></table></figure></p>
+<p>当EnableUplad 的值为 True ，才允许上传文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if EnableUpload=false then</div><div class="line">   msg=&quot;这种文件类型不允许上传！\n\n只允许上传这几种文件类型：&quot; &amp; UpFileType</div><div class="line">   FoundErr=true</div><div class="line">  end if</div><div class="line">  </div><div class="line">  </div><div class="line">  strJS=&quot;&lt;SCRIPT language=javascript&gt;&quot; &amp; vbcrlf</div><div class="line">  if FoundErr&lt;&gt;true then</div><div class="line">   randomize</div><div class="line">   ranNum=int(900*rnd)+100</div><div class="line">   filename=SavePath&amp;year(now)&amp;month(now)&amp;day(now)&amp;hour(now)&amp;minute(now)&amp;second(now)&amp;ranNum&amp;&quot;.&quot;&amp;fileExt</div><div class="line">   ofile.SaveToFile Server.mappath(FileName)   &apos;保存文件</div><div class="line">   msg=&quot;上传文件成功！&quot;</div><div class="line">  ...</div></pre></td></tr></table></figure></p>
 <p>然后我们返回头继续看漏洞产生的关键所在，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">for i=0 to ubound(arrUpFileType)</div><div class="line">  if fileEXT=trim(arrUpFileType(i)) then</div><div class="line">   EnableUpload=true</div><div class="line">   exit for</div><div class="line">  end if</div><div class="line">next</div></pre></td></tr></table></figure></p>
 <p>这里虽然 EnableUpload 的初始值为False，但在进入上面这段for循环之后，它判断了文件类型是否合法，如果合法就直接将EnableUpload值置为True，这样如果第一个文件是合法文件的话，后面的文件就跳出了这个判断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if EnableUpload=false then</div><div class="line">   msg=&quot;这种文件类型不允许上传！\n\n只允许上传这几种文件类型：&quot; &amp; UpFileType</div><div class="line">   FoundErr=true</div><div class="line">  end if</div></pre></td></tr></table></figure></p>
 <p>就直接允许后面所有的文件上传了，所以可以利用双文件上传的方法突破上传网马。 </p>
