@@ -333,6 +333,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/PHP服务代码审计之旅/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="狂战xp">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="webshell1414">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/25/PHP服务代码审计之旅/" itemprop="url">PHP服务代码审计之旅</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T16:00:32+00:00">
+                2018-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/代码审计/" itemprop="url" rel="index">
+                    <span itemprop="name">代码审计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+
+          
+            
+          
+
+
+          
+           
+          
+          
+          <span id="/2018/02/25/PHP服务代码审计之旅/" class="leancloud_visitors" data-flag-title="PHP服务代码审计之旅">
+          &nbsp; | &nbsp;
+          <span class="post-meta-item-icon">
+          <i class="fa fa-eye"></i>
+          </span>
+          <span class="post-meta-item-text">阅读次数 </span>
+          <span class="leancloud-visitors-count"></span>
+          </span>
+         
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,148字
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+
+      
+        
+
+前言  去年年底一位大学寝室的哥们来北京找我聚餐，顺便出差，他是做PHP开发的，喝多点小酒，他豪严说给让我瞅瞅他写的项目，发现一个漏洞请我吃一次大餐，原本以为他喝多了开玩笑，不料第二天还真发了一个源码包给我，虽然审计很蹩脚但为了吃上大餐还是拼了。
+1、代码分析拿到代码老规矩先看一下代码结构
+
+发现是
+...
+<!--noindex-->
+<div class="post-button text-center">
+<a class="btn" href="/2018/02/25/PHP服务代码审计之旅/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/15/一个上传文件功能引发的思考/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1095,7 +1277,7 @@ Web服务器：Nginx/1.12.1   IP
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1106,7 +1288,7 @@ Web服务器：Nginx/1.12.1   IP
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1117,7 +1299,7 @@ Web服务器：Nginx/1.12.1   IP
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1174,7 +1356,7 @@ Web服务器：Nginx/1.12.1   IP
 <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1188,7 +1370,7 @@ Web服务器：Nginx/1.12.1   IP
 </span>
 </div>
 <div class="powered-by">
-  <span class="post-count">博客全站共5.9k字</span>
+  <span class="post-count">博客全站共7.1k字</span>
 
 
         

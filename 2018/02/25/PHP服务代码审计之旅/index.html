@@ -85,7 +85,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="webshell1414,安全" />
+  <meta name="keywords" content="php,代码审计," />
 
 
 
@@ -101,20 +101,33 @@
 
 
 
-<meta name="description" content="双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。 双文件上传利用双文件上传顾名思义就是通过上传两个或多个文件去突破  本地构造正常上传页面 12345678&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;form name=&quot;form&quot; enctype=&quot;multipart/form-data&quot; met">
-<meta name="keywords">
+<meta name="description" content="前言  去年年底一位大学寝室的哥们来北京找我聚餐，顺便出差，他是做PHP开发的，喝多点小酒，他豪严说给让我瞅瞅他写的项目，发现一个漏洞请我吃一次大餐，原本以为他喝多了开玩笑，不料第二天还真发了一个源码包给我，虽然审计很蹩脚但为了吃上大餐还是拼了。 1、代码分析拿到代码老规矩先看一下代码结构  发现是用Yaf框架编写的，这是框架没了解过怎么办，度娘狠狠补习一波。Yaf是一个C语言编写的PHP框架对于">
+<meta name="keywords" content="php,代码审计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="上传绕过之双文件上传">
-<meta property="og:url" content="http://yoursite.com/2017/10/16/上传绕过之双文件上传/index.html">
+<meta property="og:title" content="PHP服务代码审计之旅">
+<meta property="og:url" content="http://yoursite.com/2018/02/25/PHP服务代码审计之旅/index.html">
 <meta property="og:site_name" content="webshell1414">
-<meta property="og:description" content="双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。 双文件上传利用双文件上传顾名思义就是通过上传两个或多个文件去突破  本地构造正常上传页面 12345678&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;form name=&quot;form&quot; enctype=&quot;multipart/form-data&quot; met">
-<meta property="og:image" content="http://yoursite.com/images/twoupload.jpg">
-<meta property="og:image" content="http://yoursite.com/images/双文件上传.jpg">
-<meta property="og:updated_time" content="2017-11-16T19:39:44.000Z">
+<meta property="og:description" content="前言  去年年底一位大学寝室的哥们来北京找我聚餐，顺便出差，他是做PHP开发的，喝多点小酒，他豪严说给让我瞅瞅他写的项目，发现一个漏洞请我吃一次大餐，原本以为他喝多了开玩笑，不料第二天还真发了一个源码包给我，虽然审计很蹩脚但为了吃上大餐还是拼了。 1、代码分析拿到代码老规矩先看一下代码结构  发现是用Yaf框架编写的，这是框架没了解过怎么办，度娘狠狠补习一波。Yaf是一个C语言编写的PHP框架对于">
+<meta property="og:image" content="https://p1.ssl.qhimg.com/t0192bf88132aeba3e5.jpg">
+<meta property="og:image" content="https://p2.ssl.qhimg.com/t0153fee8278f02fd37.jpg">
+<meta property="og:image" content="https://p4.ssl.qhimg.com/t01ec1d2b67708e4bbb.jpg">
+<meta property="og:image" content="https://p0.ssl.qhimg.com/t01b39a82d060c99c90.jpg">
+<meta property="og:image" content="https://p0.ssl.qhimg.com/t014ec22b0aeee24ddc.jpg">
+<meta property="og:image" content="https://p3.ssl.qhimg.com/t017ea939b09efb9403.jpg">
+<meta property="og:image" content="https://p5.ssl.qhimg.com/t019b992d9679a0a243.jpg">
+<meta property="og:image" content="https://p3.ssl.qhimg.com/t01fc32cdcc16ed828e.jpg">
+<meta property="og:image" content="https://p1.ssl.qhimg.com/t01ffd29f55f6d1904e.jpg">
+<meta property="og:image" content="https://p3.ssl.qhimg.com/t0106eb8d95b7031ea9.jpg">
+<meta property="og:image" content="https://p1.ssl.qhimg.com/t01213133fa6159b340.jpg">
+<meta property="og:image" content="https://p5.ssl.qhimg.com/t01e9f2a6220bc9d846.jpg">
+<meta property="og:image" content="https://p2.ssl.qhimg.com/t016c1a2f539218c51d.jpg">
+<meta property="og:image" content="https://p4.ssl.qhimg.com/t0118e3491c26805fa9.jpg">
+<meta property="og:image" content="https://p0.ssl.qhimg.com/t0199cedccd97b1459c.jpg">
+<meta property="og:updated_time" content="2018-02-25T16:26:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="上传绕过之双文件上传">
-<meta name="twitter:description" content="双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。 双文件上传利用双文件上传顾名思义就是通过上传两个或多个文件去突破  本地构造正常上传页面 12345678&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;form name=&quot;form&quot; enctype=&quot;multipart/form-data&quot; met">
-<meta name="twitter:image" content="http://yoursite.com/images/twoupload.jpg">
+<meta name="twitter:title" content="PHP服务代码审计之旅">
+<meta name="twitter:description" content="前言  去年年底一位大学寝室的哥们来北京找我聚餐，顺便出差，他是做PHP开发的，喝多点小酒，他豪严说给让我瞅瞅他写的项目，发现一个漏洞请我吃一次大餐，原本以为他喝多了开玩笑，不料第二天还真发了一个源码包给我，虽然审计很蹩脚但为了吃上大餐还是拼了。 1、代码分析拿到代码老规矩先看一下代码结构  发现是用Yaf框架编写的，这是框架没了解过怎么办，度娘狠狠补习一波。Yaf是一个C语言编写的PHP框架对于">
+<meta name="twitter:image" content="https://p1.ssl.qhimg.com/t0192bf88132aeba3e5.jpg">
 
 
 
@@ -143,13 +156,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/16/上传绕过之双文件上传/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/25/PHP服务代码审计之旅/"/>
 
 
 
 
 
-  <title>上传绕过之双文件上传 | webshell1414</title>
+  <title>PHP服务代码审计之旅 | webshell1414</title>
   
 
 
@@ -336,7 +349,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/上传绕过之双文件上传/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/PHP服务代码审计之旅/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="狂战xp">
@@ -353,7 +366,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">上传绕过之双文件上传</h1>
+          <h1 class="post-title" itemprop="name headline">PHP服务代码审计之旅</h1>
         
 
         <div class="post-meta">
@@ -365,8 +378,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T03:50:18+00:00">
-                2017-10-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T16:00:32+00:00">
+                2018-02-25
               </time>
             
 
@@ -388,8 +401,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
+                  <a href="/categories/代码审计/" itemprop="url" rel="index">
+                    <span itemprop="name">代码审计</span>
                   </a>
                 </span>
 
@@ -409,7 +422,7 @@
            
           
           
-          <span id="/2017/10/16/上传绕过之双文件上传/" class="leancloud_visitors" data-flag-title="上传绕过之双文件上传">
+          <span id="/2018/02/25/PHP服务代码审计之旅/" class="leancloud_visitors" data-flag-title="PHP服务代码审计之旅">
           &nbsp; | &nbsp;
           <span class="post-meta-item-icon">
           <i class="fa fa-eye"></i>
@@ -430,7 +443,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  685字
+                  1,148字
                 </span>
               
 
@@ -456,28 +469,51 @@
 
 
       
-        <p> 双文件上传绕过，这是一个很老的问题了，最近又有朋友问到其实现和原理，个人页忘得差不多了，网上找找也找不到原理细节，就在此分享记录一下。</p>
-<h2 id="双文件上传利用"><a href="#双文件上传利用" class="headerlink" title="双文件上传利用"></a>双文件上传利用</h2><pre><code>双文件上传顾名思义就是通过上传两个或多个文件去突破
-</code></pre><ol>
-<li><p>本地构造正常上传页面</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;form name="form" enctype="multipart/form-data" method="post" action="http://test/upload.asp"&gt;</div><div class="line">&lt;input type="file" name="file1"&gt;</div><div class="line">&lt;input type="submit" name="submit" value="提交"&gt;</div><div class="line">&lt;/form&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在上传页面增加一个上传文件域name值命名为file2</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;form name="form" enctype="multipart/form-data" method="post" action="http://test/upload.asp"&gt;</div><div class="line">&lt;input type="file" name="file1"&gt;</div><div class="line">&lt;input type="file" name="file2"&gt;</div><div class="line">&lt;input type="submit" name="submit" value="提交"&gt;</div><div class="line">&lt;/form&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>上传</p>
-</li>
-</ol>
-<p>打开这个上传页面，第一个文件域选择jpg、gif等允许上传的正常格式，后面的文件域选择准备好的网马，然后直接提交<br><img src="/../images/twoupload.jpg" alt="上传页面"></p>
-<p> 使用各种方法找到上传后的路径，把这个链接丢经菜刀中马儿就成功运行了</p>
-<h2 id="双文件上传漏洞原理"><a href="#双文件上传漏洞原理" class="headerlink" title="双文件上传漏洞原理"></a>双文件上传漏洞原理</h2><ul>
-<li>双文件上传漏洞的原理是：上传点支持多文件上传，但是却只对第一个文件做了过滤。</li>
-</ul>
-<p>这里找到别人存在该漏洞的代码做示例<br>部分关键代码如下：<br><img src="/../images/双文件上传.jpg" alt="双文件上传关键代码"><br>中间红线括着的为逻辑漏洞的关键所在<br>直接这么看可能摸不着头脑，解释一下：<br>首先，在程序的开头部分定义了 EnableUpload 的初始值为 false，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EnableUpload=false</div></pre></td></tr></table></figure></p>
-<p>当EnableUplad 的值为 True ，才允许上传文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if EnableUpload=false then</div><div class="line">   msg=&quot;这种文件类型不允许上传！\n\n只允许上传这几种文件类型：&quot; &amp; UpFileType</div><div class="line">   FoundErr=true</div><div class="line">  end if</div><div class="line">  </div><div class="line">  </div><div class="line">  strJS=&quot;&lt;SCRIPT language=javascript&gt;&quot; &amp; vbcrlf</div><div class="line">  if FoundErr&lt;&gt;true then</div><div class="line">   randomize</div><div class="line">   ranNum=int(900*rnd)+100</div><div class="line">   filename=SavePath&amp;year(now)&amp;month(now)&amp;day(now)&amp;hour(now)&amp;minute(now)&amp;second(now)&amp;ranNum&amp;&quot;.&quot;&amp;fileExt</div><div class="line">   ofile.SaveToFile Server.mappath(FileName)   &apos;保存文件</div><div class="line">   msg=&quot;上传文件成功！&quot;</div><div class="line">  ...</div></pre></td></tr></table></figure></p>
-<p>然后我们返回头继续看漏洞产生的关键所在，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">for i=0 to ubound(arrUpFileType)</div><div class="line">  if fileEXT=trim(arrUpFileType(i)) then</div><div class="line">   EnableUpload=true</div><div class="line">   exit for</div><div class="line">  end if</div><div class="line">next</div></pre></td></tr></table></figure></p>
-<p>这里虽然 EnableUpload 的初始值为False，但在进入上面这段for循环之后，它判断了文件类型是否合法，如果合法就直接将EnableUpload值置为True，这样如果第一个文件是合法文件的话，后面的文件就跳出了这个判断<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if EnableUpload=false then</div><div class="line">   msg=&quot;这种文件类型不允许上传！\n\n只允许上传这几种文件类型：&quot; &amp; UpFileType</div><div class="line">   FoundErr=true</div><div class="line">  end if</div></pre></td></tr></table></figure></p>
-<p>就直接允许后面所有的文件上传了，所以可以利用双文件上传的方法突破上传网马。 </p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  去年年底一位大学寝室的哥们来北京找我聚餐，顺便出差，他是做PHP开发的，喝多点小酒，他豪严说给让我瞅瞅他写的项目，发现一个漏洞请我吃一次大餐，原本以为他喝多了开玩笑，不料第二天还真发了一个源码包给我，虽然审计很蹩脚但为了吃上大餐还是拼了。</p>
+<h3 id="1、代码分析"><a href="#1、代码分析" class="headerlink" title="1、代码分析"></a>1、代码分析</h3><p>拿到代码老规矩先看一下代码结构</p>
+<p><img src="https://p1.ssl.qhimg.com/t0192bf88132aeba3e5.jpg" alt=""></p>
+<p>发现是用Yaf框架编写的，这是框架没了解过怎么办，度娘狠狠补习一波。<br>Yaf是一个C语言编写的PHP框架<br>对于Yaf的应用, 遵循类似下面的目录结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">+ public</div><div class="line">  |- index.php //入口文件</div><div class="line">  |- .htaccess //重写规则    </div><div class="line">  |+ css</div><div class="line">  |+ img</div><div class="line">  |+ js</div><div class="line">+ conf</div><div class="line">  |- application.ini //配置文件   </div><div class="line">+ application</div><div class="line">  |+ controllers</div><div class="line">     |- Index.php //默认控制器</div><div class="line">  |+ views    </div><div class="line">     |+ index   //控制器</div><div class="line">        |- index.phtml //默认视图</div><div class="line">  |+ modules //其他模块</div><div class="line">  |+ library //本地类库</div><div class="line">  |+ models  //model目录</div><div class="line">  |+ plugins //插件目录</div></pre></td></tr></table></figure>
+<p>好了其他不多说，不是开发不需要对Yaf了解太深，只需了解到默认控制器是在application目录下的controllers目录文件，本项目也是在这，只需查看controllers下的逻辑即可。</p>
+<p>还是先将其放到RIPS上扫描一下吧！</p>
+<p><img src="https://p2.ssl.qhimg.com/t0153fee8278f02fd37.jpg" alt=""></p>
+<p>大约查看了一下，都是一堆的误报，没发现有营养的，只能一个个去看了，还好不多。</p>
+<p>下载APP客户端熟悉熟悉，是先用其他用户登录app，然后在和这个项目服务换取一个个人的ticket票据，之后和这个项目通讯都是根据ticket识别用户（这里就想到能不能破解生成ticket算法即可实现用户越权），不过客户端与本服务端动态交互不多。好吧，项目不大交互不多就一个一个看下去吧！</p>
+<h2 id="2、Sql注入漏洞"><a href="#2、Sql注入漏洞" class="headerlink" title="2、Sql注入漏洞"></a>2、Sql注入漏洞</h2><p>老方法，直接搜索可修改的参数</p>
+<p><img src="https://p4.ssl.qhimg.com/t01ec1d2b67708e4bbb.jpg" alt=""></p>
+<p>可惜并不多，第一想法是有点凉了，还是慢慢摸索瞅瞅吧！</p>
+<p>查看Search.php文件内容</p>
+<p><img src="https://p0.ssl.qhimg.com/t01b39a82d060c99c90.jpg" alt=""></p>
+<p>在37行传参name到$name变量，在49行交给getTagByName()函数处理</p>
+<p>跟进getTagByName函数看下</p>
+<p><img src="https://p0.ssl.qhimg.com/t014ec22b0aeee24ddc.jpg" alt=""></p>
+<p>在函数中可以看到明显，只是校验了name字段是否有值就拼接到sql语句进行查询，就造成了sql注入拿他生产环境测试，</p>
+<p><img src="https://p3.ssl.qhimg.com/t017ea939b09efb9403.jpg" alt=""><br><img src="https://p5.ssl.qhimg.com/t019b992d9679a0a243.jpg" alt=""></p>
+<p>注入测试成功，询问他是否可以在线上深入测试，他说发现问题请吃饭。深入测试就算了，怕影响业务，只能就此作罢</p>
+<p>继续翻翻代码，用户可控制的变量实在不多，翻了半天代码没发现可利用的，而且其他变量都做了校验</p>
+<p><img src="https://p3.ssl.qhimg.com/t01fc32cdcc16ed828e.jpg" alt=""></p>
+<p>这个漏洞应该是开发忘记校验了。</p>
+<h2 id="3、ticket伪造薅羊毛"><a href="#3、ticket伪造薅羊毛" class="headerlink" title="3、ticket伪造薅羊毛"></a>3、ticket伪造薅羊毛</h2><p>继续去瞅瞅ticket生成算法吧，ticket算法在Ticket.php文件上</p>
+<p><img src="https://p1.ssl.qhimg.com/t01ffd29f55f6d1904e.jpg" alt=""></p>
+<p>可以看到在23行ticket生成算法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ticket = md5($ua . &quot;userId:&quot; . $userId);</div></pre></td></tr></table></figure>
+<p>在21行得到$ua变量，即用户的:User-Agent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ua = Fn::getHttpUserAgent();</div></pre></td></tr></table></figure>
+<p>生成的ticket之后放到redis中并设置一个小时的有效期</p>
+<p>那么只剩$userId未知了，猜测应该和之前APP登录的id有关，查找谁在调用generateTicket</p>
+<p><img src="https://p3.ssl.qhimg.com/t0106eb8d95b7031ea9.jpg" alt=""></p>
+<p>查看Plugin.php文件内容，找到131行</p>
+<p><img src="https://p1.ssl.qhimg.com/t01213133fa6159b340.jpg" alt=""></p>
+<p>在这$userInfo[‘id’]就是$userId，往上继续跟踪$userInfo，$userId由addUser($userInfo)生成，继续跟踪该函数</p>
+<p><img src="https://p5.ssl.qhimg.com/t01e9f2a6220bc9d846.jpg" alt=""></p>
+<p>继续跟踪addGetInsertId()函数</p>
+<p><img src="https://p2.ssl.qhimg.com/t016c1a2f539218c51d.jpg" alt=""></p>
+<p>在这里可以看到，$result其实就是插入数据库自增的id值，这是个正整数，那么ticket生成算法就可以知晓了，就是md5($ua . “userId:” . $userId)，$ua就是User-Agent，这个不多可以遍历，$userId就是一个正整数，那么遍历$ua和正整数就可以将一部分用户的ticket遍历出来了，这里我拿自己的ticket(64b6cb4250ca9898c1d254ceb8a9c77b)就行测试</p>
+<p><img src="https://p4.ssl.qhimg.com/t0118e3491c26805fa9.jpg" alt=""><br><img src="https://p0.ssl.qhimg.com/t0199cedccd97b1459c.jpg" alt=""></p>
+<p>爆破成功$userId值为 911</p>
+<h5 id="碰到的问题"><a href="#碰到的问题" class="headerlink" title="碰到的问题"></a>碰到的问题</h5><p>我开始觉得奇怪，这样的每个用户的ticket应该是固定值，但实际中发现它还是会变的 </p>
+<p>之后再研究代码时候发现用户超过24小时之后会重新更新数据库，实际意义就是将用户id移到当前最大递增的id值，从而实现用户ticket的有效变换（个人感觉这样实现好麻烦，而且用户一多性能就跟不上了）</p>
+<h2 id="4、总结"><a href="#4、总结" class="headerlink" title="4、总结"></a>4、总结</h2><p>开发无论多注意，总归还是会遗漏一两个参数不小心忘记进行处理的，话说总结啥哦，我们就是靠他们忘记处理去混饭吃的，不说了，我要去吃大餐了。</p>
 
       
     </div>
@@ -493,6 +529,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/php/" <i class="fa fa-tag"></i> php</a>
+          
+            <a href="/tags/代码审计/" <i class="fa fa-tag"></i> 代码审计</a>
+          
+        </div>
+      
 
       
       
@@ -502,18 +546,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/15/一个上传文件功能引发的思考/" rel="next" title="一个上传文件功能引发的思考">
-                <i class="fa fa-chevron-left"></i> 一个上传文件功能引发的思考
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/10/黑客成长技术清单/" rel="prev" title="黑客成长技术清单">
-                黑客成长技术清单 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/15/一个上传文件功能引发的思考/" rel="prev" title="一个上传文件功能引发的思考">
+                一个上传文件功能引发的思考 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -664,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#双文件上传利用"><span class="nav-number">1.</span> <span class="nav-text">双文件上传利用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双文件上传漏洞原理"><span class="nav-number">2.</span> <span class="nav-text">双文件上传漏洞原理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、代码分析"><span class="nav-number">1.1.</span> <span class="nav-text">1、代码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、Sql注入漏洞"><span class="nav-number">2.</span> <span class="nav-text">2、Sql注入漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、ticket伪造薅羊毛"><span class="nav-number">3.</span> <span class="nav-text">3、ticket伪造薅羊毛</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#碰到的问题"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">碰到的问题</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、总结"><span class="nav-number">4.</span> <span class="nav-text">4、总结</span></a></li></ol></div>
             
 
           </div>
